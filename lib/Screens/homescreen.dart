@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:todowithprovider/Provider/drawerProvider.dart';
+import 'package:todowithprovider/Provider/todoprovider.dart';
 import 'package:todowithprovider/widgets/appDrawerWidget.dart';
 
 class Homescreen extends StatefulWidget {
@@ -17,6 +18,7 @@ class _HomescreenState extends State<Homescreen> {
     //of
     //drawerprovider
     // final drawerprovider = Provider.of<Drawerprovider>(context, listen: false);
+    // final todoProvider = Provider.of<Todoprovider>(context, listen: false);
     return Scaffold(
       drawer: appDrawerWidget(),
       body: Consumer<Drawerprovider>(
@@ -24,6 +26,12 @@ class _HomescreenState extends State<Homescreen> {
           return drawerproviderobj.currentScreen;
         },
       ),
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: () {
+      //     // todoProvider.getdata();
+      //   },
+      //   child: Icon(Icons.ads_click),
+      // ),
     );
   }
 }

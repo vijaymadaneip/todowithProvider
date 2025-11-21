@@ -280,3 +280,7 @@ Goal: Use **Provider + MVVM + API + Navigation**.
 
 # ⭐ Want me to generate?
 
+
+//add dailog to confirm Delete
+//handle space for the dropdown
+//listview scroll icon

@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:readmore/readmore.dart';
+import 'package:todowithprovider/Provider/drawerProvider.dart';
 import 'package:todowithprovider/Provider/todoprovider.dart';
 import 'package:todowithprovider/widgets/addTaskwidget.dart';
 import 'package:todowithprovider/widgets/appBarWidget.dart';
@@ -20,6 +21,7 @@ class Mediumpriorityscreen extends StatefulWidget {
 class _MediumpriorityscreenState extends State<Mediumpriorityscreen> {
   @override
   Widget build(BuildContext context) {
+    final drawerprovider = Provider.of<Drawerprovider>(context, listen: false);
     return Scaffold(
       appBar: appBarWidgetCustom(),
       drawer: appDrawerWidget(),
@@ -27,20 +29,22 @@ class _MediumpriorityscreenState extends State<Mediumpriorityscreen> {
         padding: EdgeInsetsGeometry.all(10),
         child: Column(
           children: [
-            Addtaskwidget(),
-            const SizedBox(height: 20),
+            // Addtaskwidget(),
+            // const SizedBox(height: 20),
             Expanded(
               child: Consumer<Todoprovider>(
-                builder: (context, todoProvidermedium, child) {
+                builder: (context, todoProviderObj, child) {
                   //extract task
                   //which
                   //are having
                   //only medium priority
-                  final taskwithMediumPriority = todoProvidermedium.allTask
+                  final taskwithMediumPriority = todoProviderObj.allTask
                       .where((task) => task.priority == "Medium")
                       .toList();
                   return taskwithMediumPriority.isEmpty
-                      ? Text("Medium Priority Task list is empt")
+                      ? Center(
+                          child: Text("Medium Priority Task list is empty"),
+                        )
                       : ListView.separated(
                           separatorBuilder: (context, index) {
                             return const SizedBox(height: 10);
@@ -56,14 +60,13 @@ class _MediumpriorityscreenState extends State<Mediumpriorityscreen> {
                             return Container(
                               width: MediaQuery.of(context).size.width,
                               decoration: BoxDecoration(
-                               color: Colors.white,
+                                color: Colors.white,
                                 borderRadius: BorderRadius.circular(20),
-
-                                border: Border.all(
-                                  // color: Colors.black,
-                                  color: Colors.grey.shade300,
-                                  width: 2.0,
-                                  style: BorderStyle.solid,
+                                border: Border(
+                                  left: BorderSide(
+                                    color: Colors.yellow,
+                                    width: 5,
+                                  ),
                                 ),
                                 boxShadow: [
                                   BoxShadow(
@@ -78,49 +81,14 @@ class _MediumpriorityscreenState extends State<Mediumpriorityscreen> {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Row(
-                                      children: [
-                                        //title
-                                      Expanded(
-                                          child: ReadMoreText(
-                                            finalMediumPriorytytask.title,
-                                            trimLines: 1,
-                                            trimMode: TrimMode.Line,
-                                            trimCollapsedText: "Read More",
-                                            trimExpandedText: "Read Less",
-                                             moreStyle: const TextStyle(
-                                              fontSize: 14,
-                                              // fontWeight: FontWeight.bold,
-                                              fontWeight: FontWeight.w600,
-                                              // color: Colors.black,
-                                              color: Colors.blueGrey,
-                                            ),
-
-                                            lessStyle: const TextStyle(
-                                              fontSize: 14,
-                                              // fontWeight: FontWeight.bold,
-                                              color: Colors.blueGrey,
-                                              fontWeight: FontWeight.w600,
-                                              // color: Colors.black,
-                                            ),
-
-                                            style: TextStyle(
-                                              fontSize: 18,
-                                              color: Colors.black87,
-                                              fontWeight: FontWeight.w700,
-                                            ),
-                                          ),
-                                        ),
-                                        // Spacer(),
-                                        //priority
-                                        Text(
-                                          "Priority: ${finalMediumPriorytytask.priority}",
-                                          style: TextStyle(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                      ],
+                                    Text(
+                                      finalMediumPriorytytask.title,
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        color: Colors.black87,
+                                        fontWeight: FontWeight.w700,
+                                      ),
+                                      maxLines: 2,
                                     ),
 
                                     ReadMoreText(
@@ -128,16 +96,16 @@ class _MediumpriorityscreenState extends State<Mediumpriorityscreen> {
                                       finalMediumPriorytytask.description,
                                       trimLines: 1,
                                       trimMode: TrimMode.Line,
-                                      trimCollapsedText: "Read More",
-                                      trimExpandedText: "Read Less",
+                                      trimCollapsedText: " More",
+                                      trimExpandedText: " Less",
                                       moreStyle: const TextStyle(
-                                        fontSize: 14,
+                                        fontSize: 12,
                                         fontWeight: FontWeight.bold,
                                         color: Colors.black,
                                       ),
 
                                       lessStyle: const TextStyle(
-                                        fontSize: 14,
+                                        fontSize: 12,
                                         fontWeight: FontWeight.bold,
                                         color: Colors.black,
                                       ),
@@ -149,9 +117,15 @@ class _MediumpriorityscreenState extends State<Mediumpriorityscreen> {
                                     ),
                                     Row(
                                       children: [
+                                        Icon(
+                                          Icons.calendar_today,
+                                          size: 16,
+                                          color: Colors.blueGrey,
+                                        ),
+                                        const SizedBox(width: 10),
                                         //Date
                                         Text(
-                                          "Date : ${finalMediumPriorytytask.date}",
+                                          "${finalMediumPriorytytask.date}",
                                           style: TextStyle(
                                             // fontWeight: FontWeight.bold,
                                             fontSize: 14,
@@ -163,52 +137,112 @@ class _MediumpriorityscreenState extends State<Mediumpriorityscreen> {
                                             log(
                                               "Edit icon clecked in all task screen",
                                             );
-
-                                            final requiredINDEX = index;
-                                            log(
-                                              "$requiredINDEX passed to dailog screen",
-                                            );
+                                            //index to pass for update
+                                            final realIndex = todoProviderObj
+                                                .allTask
+                                                .indexOf(
+                                                  finalMediumPriorytytask,
+                                                );
+                                            //document to pass for update
+                                            final doctoEdit = todoProviderObj
+                                                .allTask[index]
+                                                .id;
+                                            //Call Edit
                                             showDialog(
                                               context: context,
                                               builder: (context) {
                                                 return todoFormWidget(
-                                                  editingIndexID: requiredINDEX,
+                                                  editingIndexID: realIndex,
+                                                  documentID: doctoEdit,
                                                 );
                                               },
                                             );
-                                            //show our
-                                            //custom snakbar
-                                            showCustomSnackBar(
-                                              context,
-                                              "Task Edited Succesfully",
-                                            );
+                                            // //show our
+                                            // //custom snakbar
+                                            // showCustomSnackBar(
+                                            //   context,
+                                            //   "Task Edited Succesfully",
+                                            // );
                                           },
-                                          child: Icon(Icons.edit),
+                                          child: Icon(
+                                            Icons.edit,
+                                            color: Colors.blueGrey,
+                                          ),
                                         ),
                                         GestureDetector(
                                           onTap: () {
                                             //call
                                             //delter from provider
+                                            showDialog(
+                                              context: context,
+                                              builder: (context) {
+                                                return AlertDialog(
+                                                  title: const Text("Delete"),
+                                                  content: const Text(
+                                                    "Are You Sure its Medium Priority?",
+                                                  ),
+
+                                                  actions: [
+                                                    TextButton(
+                                                      onPressed: () {
+                                                        Navigator.of(
+                                                          context,
+                                                        ).pop();
+                                                      },
+                                                      child: Text("Cancel"),
+                                                    ),
+                                                    TextButton(
+                                                      onPressed: () {
+                                                        // );
+                                                        final realIndex =
+                                                            todoProviderObj
+                                                                .allTask
+                                                                .indexOf(
+                                                                  finalMediumPriorytytask,
+                                                                );
+
+                                                        String doctodelId =
+                                                            todoProviderObj
+                                                                .allTask[realIndex]
+                                                                .id;
+                                                        todoProviderObj
+                                                            .deletetheTaskFromFirestore(
+                                                              doctodelId,
+                                                              realIndex,
+                                                            );
+                                                        Navigator.of(
+                                                          context,
+                                                        ).pop();
+                                                      },
+                                                      child: Text(
+                                                        "Delete Task",
+                                                      ),
+                                                    ),
+                                                  ],
+                                                );
+                                              },
+                                            );
+
                                             // final indextodel = todo[index];
                                             // todoProvidermedium.deleteTask(
                                             //   index,
                                             // );
-                                            final realIndex = todoProvidermedium
-                                                .allTask
-                                                .indexOf(
-                                                  finalMediumPriorytytask,
-                                                );
-                                              //Delete
-                                            todoProvidermedium.deleteTask(
-                                              realIndex,
-                                            );
+                                            // final realIndex = todoProvidermedium
+                                            //     .allTask
+                                            //     .indexOf(
+                                            //       finalMediumPriorytytask,
+                                            //     );
+                                            //Delete
+                                            // todoProvidermedium.deleteTask(
+                                            //   realIndex,
+                                            // );
 
                                             //show our
                                             //custom snakbar
-                                            showCustomSnackBar(
-                                              context,
-                                              "Task Deleted Succesfully",
-                                            );
+                                            // showCustomSnackBar(
+                                            //   context,
+                                            //   "Task Deleted Succesfully",
+                                            // );
 
                                             // ScaffoldMessenger.of(
                                             //   context,
@@ -220,7 +254,10 @@ class _MediumpriorityscreenState extends State<Mediumpriorityscreen> {
                                             //   ),
                                             // );
                                           },
-                                          child: Icon(Icons.delete),
+                                          child: Icon(
+                                            Icons.delete,
+                                            color: Colors.red,
+                                          ),
                                         ),
                                       ],
                                     ),
@@ -235,6 +272,13 @@ class _MediumpriorityscreenState extends State<Mediumpriorityscreen> {
             ),
           ],
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.white,
+        onPressed: () {
+          drawerprovider.changeCurrentScreen(AllScreenPagesEnum.todoScreen);
+        },
+        child: Icon(Icons.add_task, color: Colors.blueAccent),
       ),
     );
   }

@@ -7,13 +7,13 @@ import 'package:todowithprovider/model/todomodel.dart';
 import 'package:todowithprovider/widgets/customSnackBarWidget.dart';
 
 class todoFormWidget extends StatefulWidget {
-  const todoFormWidget({super.key, required this.editingIndexID});
+  const todoFormWidget({super.key, required this.editingIndexID,required this.documentID});
   //taking
   //edit index
   //form edit
   //icon previous click
   final int? editingIndexID;
-
+  final String? documentID;
   @override
   State<todoFormWidget> createState() => _todoFormWidgetState();
 }
@@ -80,9 +80,9 @@ class _todoFormWidgetState extends State<todoFormWidget> {
                     children: [
                       //TITLE
                       Text(
-                        "Task Title",
+                        "Title",
                         style: TextStyle(
-                          fontSize: 22,
+                          fontSize: 18,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -108,12 +108,12 @@ class _todoFormWidgetState extends State<todoFormWidget> {
                           return null;
                         },
                       ),
-                      const SizedBox(height: 20),
+                      SizedBox(height: 5),
                       //DESCRIPTION
                       Text(
-                        "Task Despcription",
+                        "Despcription",
                         style: TextStyle(
-                          fontSize: 22,
+                          fontSize: 18,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -140,34 +140,34 @@ class _todoFormWidgetState extends State<todoFormWidget> {
                           return null;
                         },
                       ),
-                      const SizedBox(height: 20),
+                      SizedBox(height: 5),
                       //DATE
                       Text(
                         "Date",
                         style: TextStyle(
-                          fontSize: 22,
+                          fontSize: 18,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                       const SizedBox(height: 5),
                       TextFormField(
-                         onTap: () async {
-                        DateTime? pickedDate = await showDatePicker(
-                          context: context,
-                          initialDate: DateTime.now(),
-                          firstDate: DateTime(2000),
-                          lastDate: DateTime(2100),
-                        );
-                  
-                        if (pickedDate != null) {
-                          String formattedDate =
-                              "${pickedDate.day}/${pickedDate.month}/${pickedDate.year}";
-                          //ADD
-                          //TO OUR CONTORLLER
-                          //
-                          datecontroller.text = formattedDate;
-                        }
-                      },
+                        onTap: () async {
+                          DateTime? pickedDate = await showDatePicker(
+                            context: context,
+                            initialDate: DateTime.now(),
+                            firstDate: DateTime(2000),
+                            lastDate: DateTime(2100),
+                          );
+
+                          if (pickedDate != null) {
+                            String formattedDate =
+                                "${pickedDate.day}/${pickedDate.month}/${pickedDate.year}";
+                            //ADD
+                            //TO OUR CONTORLLER
+                            //
+                            datecontroller.text = formattedDate;
+                          }
+                        },
                         controller: datecontroller,
                         decoration: InputDecoration(
                           labelText: "Date",
@@ -189,11 +189,11 @@ class _todoFormWidgetState extends State<todoFormWidget> {
                           return null;
                         },
                       ),
-                      const SizedBox(height: 20),
+                      SizedBox(height: 5),
                       Text(
                         "Priority",
                         style: TextStyle(
-                          fontSize: 22,
+                          fontSize: 18,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -229,7 +229,7 @@ class _todoFormWidgetState extends State<todoFormWidget> {
                           return null;
                         },
                       ),
-                      SizedBox(height: 20),
+                      SizedBox(height: 5),
 
                       Center(
                         child: SizedBox(
@@ -242,12 +242,12 @@ class _todoFormWidgetState extends State<todoFormWidget> {
                                 //using
                                 //task
                                 ///class and passing data
-
                                 final newTask = Task(
                                   title: titlecontroller.text.trim(),
                                   description: despcontroller.text.trim(),
                                   date: datecontroller.text.trim(),
                                   priority: selectedPriority!,
+                                  id: widget.documentID!,
                                 );
 
                                 //call add
@@ -261,11 +261,23 @@ class _todoFormWidgetState extends State<todoFormWidget> {
                                 if (widget.editingIndexID == null) {
                                   // ADD NEW TASK
                                   todoprovider.addTask(newTask);
+                                  showCustomSnackBar(
+                                    context,
+                                    "Task Edited Succesfully",
+                                  );
                                 } else {
                                   // UPDATE EXISTING TASK
-                                  todoprovider.updateTask(
+                                  // todoprovider.updateTask(
+                                  //   widget.editingIndexID!,
+                                  //   newTask,
+                                  // );
+                                  todoprovider.edtingOftheTask(
                                     widget.editingIndexID!,
                                     newTask,
+                                  );
+                                  showCustomSnackBar(
+                                    context,
+                                    "Task Edited Successfully",
                                   );
                                 }
                                 //reset
@@ -274,21 +286,11 @@ class _todoFormWidgetState extends State<todoFormWidget> {
                                 //back to screen
                                 Navigator.of(context).pop();
                                 // Clear fields after add/update
-                                titlecontroller.clear();
-                                despcontroller.clear();
-                                datecontroller.clear();
-                                selectedPriority = "Select";
-
-                                //call custom snackbar
-                                // customSnackBarWidget(message: "Task Added Sucessfully",);
-                                // Show snackbar
-                                showCustomSnackBar(
-                                  context,
-                                  widget.editingIndexID == null
-                                      ? "Task added successfully"
-                                      : "Task updated successfully",
-                                );
-                                setState(() {});
+                                // titlecontroller.clear();
+                                // despcontroller.clear();
+                                // datecontroller.clear();
+                                // selectedPriority = "Select";
+                                // setState(() {});
                               }
                             },
                             style: ElevatedButton.styleFrom(

@@ -1,6 +1,9 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+import 'package:provider/provider.dart';
+import 'package:todowithprovider/Provider/todoprovider.dart';
+// import 'package:todowithprovider/Provider/todoprovider.dart';
 import 'package:todowithprovider/Screens/homescreen.dart';
 
 class splashScreen extends StatefulWidget {
@@ -21,11 +24,19 @@ class _splashScreenState extends State<splashScreen> {
         MaterialPageRoute(builder: (context) => Homescreen()),
       ),
     );
+
+    //call get data
+    //in spalsh screen it selft
+    //so previous added task
+    //reflect in ui
+    final todoProvider = Provider.of<Todoprovider>(context, listen: false);
+    todoProvider.gettingDataFromFirestore();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor:Colors.lightBlue,
       body: Padding(
         padding: EdgeInsets.all(10),
         child: Center(
@@ -38,7 +49,7 @@ class _splashScreenState extends State<splashScreen> {
 
               border: Border.all(
                 // color: Colors.black,
-                color: Colors.blueAccent,
+                color: Colors.black,
                 width: 2.0,
                 style: BorderStyle.solid,
               ),

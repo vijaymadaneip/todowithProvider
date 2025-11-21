@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:readmore/readmore.dart';
-import 'package:todowithprovider/Provider/drawerProvider.dart';
+
 import 'package:todowithprovider/Provider/todoprovider.dart';
 import 'package:todowithprovider/widgets/appBarWidget.dart';
 import 'package:todowithprovider/widgets/appDrawerWidget.dart';
@@ -34,89 +34,31 @@ class _todoScreenState extends State<todoScreen> {
   String? selectedPriority = "Select";
   final List<String> priorityList = ["Select", "Low", "Medium", "High"];
 
+  final List<Color> colors = const <Color>[
+    Colors.yellow,
+    Colors.green,
+    Colors.deepPurple,
+  ];
+
+   //check is checked or not 
+  //bool variable
+  // bool statusIsChecked = false;
+  // @override
+
   @override
   Widget build(BuildContext context) {
     //instace of provider
     // 3 ways to use
     final todoprovider = Provider.of<Todoprovider>(context, listen: false);
+    
     // final drawerprovider = Provider.of<Drawerprovider>(context,listen: true);
     // final todoprovider = context.read<Todoprovider>();
 
     return Scaffold(
       drawer: appDrawerWidget(),
       appBar: appBarWidgetCustom(),
-      // appBar: AppBar(
-      //   title: Text(
-      //     "Todo App",
-      //     style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-      //   ),
-      //   elevation: 50,
-      //   centerTitle: true,
-      //   backgroundColor: Colors.blue,
-      //   shape: RoundedRectangleBorder(
-      //     borderRadius: BorderRadius.only(
-      //       bottomRight: Radius.circular(25),
-      //       bottomLeft: Radius.circular(25),
-      //     ),
-      //   ),
-      //   actions: <Widget>[
-      //     IconButton(onPressed: () {}, icon: Icon(Icons.more_vert)),
-      //   ],
-      // ),
-      // drawer: Drawer(
-
-      //   child: ListView(
-      //     padding: EdgeInsets.all(2),
-      //     children: [
-      //       Container(
-      //         padding: EdgeInsets.all(5),
-      //         height: 90,
-      //         child: DrawerHeader(
-      //           margin: EdgeInsets.all(0),
-      //           padding: EdgeInsetsGeometry.all(0),
-      //           child: Text(
-      //             "Categories of Task",
-      //             style: TextStyle(fontSize: 24),
-      //           ),
-      //         ),
-      //       ),
-      //        ListTile(
-      //         leading: Icon(Icons.list_alt),
-      //         title: Text('All Task'),
-      //         onTap: () {
-      //           drawerprovider.changeCurrentScreen(AllScreenPagesEnum.allTaskScreen);
-      //         },
-      //       ),
-      //       Divider(),
-      //       ListTile(
-      //         leading: Icon(Icons.low_priority),
-      //         title: Text('Low'),
-      //         onTap: () {
-      //           drawerprovider.changeCurrentScreen(AllScreenPagesEnum.Lowpriorityscreen);
-      //         },
-      //       ),
-      //       Divider(),
-      //       ListTile(
-      //         leading: Icon(Icons.info_outline),
-      //         title: Text('Medium'),
-      //         onTap: () {
-      //           drawerprovider.changeCurrentScreen(AllScreenPagesEnum.Mediumpriorityscreen);
-      //         },
-      //       ),
-      //       Divider(),
-      //       ListTile(
-      //         leading: Icon(Icons.priority_high),
-      //         title: Text('High'),
-      //         onTap: () {
-      //           drawerprovider.changeCurrentScreen(AllScreenPagesEnum.Highpriorityscreen);
-      //         },
-      //       ),
-      //       Divider(),
-      //     ],
-      //   ),
-      // ),
       body: Padding(
-        padding: EdgeInsets.all(20),
+        padding: EdgeInsets.all(15),
         child: Column(
           children: [
             Form(
@@ -126,8 +68,8 @@ class _todoScreenState extends State<todoScreen> {
                 children: [
                   //TITLE
                   Text(
-                    "Task Title",
-                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                    "Title",
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 5),
                   TextFormField(
@@ -148,11 +90,11 @@ class _todoScreenState extends State<todoScreen> {
                       return null;
                     },
                   ),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 5),
                   //DESCRIPTION
                   Text(
-                    "Task Despcription",
-                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                    "Description",
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 5),
                   TextFormField(
@@ -174,11 +116,11 @@ class _todoScreenState extends State<todoScreen> {
                       return null;
                     },
                   ),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 5),
                   //DATE
                   Text(
                     "Date",
-                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 5),
                   TextFormField(
@@ -193,9 +135,8 @@ class _todoScreenState extends State<todoScreen> {
                       if (pickedDate != null) {
                         String formattedDate =
                             "${pickedDate.day}/${pickedDate.month}/${pickedDate.year}";
-                        //ADD
-                        //TO OUR CONTORLLER
-                        //
+                        //ADd TO OUR CONTORLLER
+
                         datecontroller.text = formattedDate;
                       }
                     },
@@ -217,11 +158,12 @@ class _todoScreenState extends State<todoScreen> {
                       return null;
                     },
                   ),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 5),
                   Text(
                     "Priority",
-                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
+                  const SizedBox(height: 5),
                   DropdownButtonFormField(
                     initialValue: selectedPriority,
                     items: priorityList.map((priority) {
@@ -253,7 +195,13 @@ class _todoScreenState extends State<todoScreen> {
                       return null;
                     },
                   ),
-                  SizedBox(height: 20),
+                  // const SizedBox(height: 5),
+                  //  Text(
+                  //   "Status",
+                  //   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  // ),
+                  const SizedBox(height: 5),
+                  
 
                   Center(
                     child: SizedBox(
@@ -266,12 +214,14 @@ class _todoScreenState extends State<todoScreen> {
                             //using
                             //task
                             ///class and passing data
-
-                            final newTask = Task(
+                            Task newTask = Task(
                               title: titlecontroller.text.trim(),
                               description: despcontroller.text.trim(),
                               date: datecontroller.text.trim(),
                               priority: selectedPriority!,
+                              //initially id is empty
+                              //will take it from firstore reference
+                              id: '',
                             );
 
                             //call add
@@ -282,20 +232,22 @@ class _todoScreenState extends State<todoScreen> {
                             // despcontroller.clear();
                             // datecontroller.clear();
                             // log("${newtask}");
+
                             if (editingIndex == null) {
                               // ADD NEW TASK
                               todoprovider.addTask(newTask);
                               //calling custom snackbar
-
                               showCustomSnackBar(
                                 context,
                                 "Task Added Successfully",
                               );
                             } else {
-                              // UPDATE EXISTING TASK
-                              todoprovider.updateTask(editingIndex!, newTask);
+                              // UPDATE EXISTING
+                              todoprovider.edtingOftheTask(
+                                editingIndex!,
+                                newTask,
+                              );
                               //calling custom snackbar
-
                               showCustomSnackBar(
                                 context,
                                 "Task Edited Successfully",
@@ -327,6 +279,7 @@ class _todoScreenState extends State<todoScreen> {
                           style: TextStyle(
                             fontSize: 22,
                             fontWeight: FontWeight.bold,
+                            // color: editingIndex ==null ?Colors.white :Colors.black
                           ),
                         ),
                       ),
@@ -336,7 +289,7 @@ class _todoScreenState extends State<todoScreen> {
                   Center(
                     child: Container(
                       width: MediaQuery.of(context).size.width / 1.2,
-                      height: 50,
+                      height: 40,
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(10),
@@ -351,7 +304,7 @@ class _todoScreenState extends State<todoScreen> {
                         child: Text(
                           "List of Task",
                           style: TextStyle(
-                            fontSize: 22,
+                            fontSize: 20,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -362,16 +315,16 @@ class _todoScreenState extends State<todoScreen> {
               ),
             ),
 
-            const SizedBox(height: 20),
+            const SizedBox(height: 10),
 
             Expanded(
               child: Consumer<Todoprovider>(
                 builder: (context, todo, child) {
                   return todo.allTask.isEmpty
-                      ? Text("No data in list")
+                      ? Center(child: Text("No Data Found"))
                       : ListView.separated(
                           separatorBuilder: (context, index) {
-                            return const SizedBox(height: 10);
+                            return const SizedBox(height: 6);
                           },
                           itemCount: todo.allTask.length,
                           itemBuilder: (context, index) {
@@ -381,6 +334,11 @@ class _todoScreenState extends State<todoScreen> {
                             //with its index
                             final task = todo.allTask[index];
 
+                            Color borderColor = task.priority == "Low"
+                                ? colors[0]
+                                : task.priority == "Medium"
+                                ? colors[1]
+                                : colors[2];
                             return Container(
                               width: MediaQuery.of(context).size.width,
                               // height: 100,
@@ -388,12 +346,13 @@ class _todoScreenState extends State<todoScreen> {
                                 color: Colors.white,
                                 borderRadius: BorderRadius.circular(20),
 
-                                border: Border.all(
-                                  // color: Colors.black,
-                                  color: Colors.grey.shade300,
-                                  width: 2.0,
-                                  style: BorderStyle.solid,
+                                border: Border(
+                                  left: BorderSide(
+                                    color: borderColor,
+                                    width: 4,
+                                  ),
                                 ),
+
                                 boxShadow: [
                                   BoxShadow(
                                     color: Colors.black12,
@@ -409,76 +368,35 @@ class _todoScreenState extends State<todoScreen> {
                                   children: [
                                     Row(
                                       children: [
-                                        // Text(
-                                        //   "Title : ${task.title}",
-                                        //   style: TextStyle(
-                                        //     fontWeight: FontWeight.bold,
-                                        //     fontSize: 18,
-                                        //   ),
-                                        // ),
-                                        Expanded(
-                                          child: ReadMoreText(
-                                            task.title,
-                                            trimLines: 1,
-                                            trimMode: TrimMode.Line,
-                                            trimCollapsedText: "Read More",
-                                            trimExpandedText: "Read Less",
-                                            moreStyle: const TextStyle(
-                                              fontSize: 14,
-                                              // fontWeight: FontWeight.bold,
-                                              fontWeight: FontWeight.w600,
-                                              // color: Colors.black,
-                                              color: Colors.blueGrey,
-                                            ),
-
-                                            lessStyle: const TextStyle(
-                                              fontSize: 14,
-                                              // fontWeight: FontWeight.bold,
-                                              color: Colors.blueGrey,
-                                              fontWeight: FontWeight.w600,
-                                              // color: Colors.black,
-                                            ),
-
-                                            style: TextStyle(
-                                              fontSize: 18,
-                                              color: Colors.black87,
-                                              fontWeight: FontWeight.w700,
-                                            ),
-                                          ),
-                                        ),
-                                        Spacer(),
                                         Text(
-                                          "Priority: ${task.priority}",
+                                          task.title,
+                                          maxLines: 2,
                                           style: TextStyle(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.bold,
+                                            fontSize: 16,
+                                            color: Colors.black87,
+                                            fontWeight: FontWeight.w700,
                                           ),
+
+                                          
                                         ),
+                                       
                                       ],
                                     ),
-                                    // Text(
-                                    //   "Description : ${task.description}",
-                                    //   style: TextStyle(
-                                    //     color: Colors.grey,
-                                    //     // fontWeight: FontWeight.bold,
-                                    //     fontSize: 16,
-                                    //   ),
-                                    // ),
                                     ReadMoreText(
                                       //description
                                       task.description,
                                       trimLines: 1,
                                       trimMode: TrimMode.Line,
-                                      trimCollapsedText: "Read More",
-                                      trimExpandedText: "Read Less",
+                                      trimCollapsedText: " More",
+                                      trimExpandedText: "Less",
                                       moreStyle: const TextStyle(
-                                        fontSize: 14,
+                                        fontSize: 12,
                                         fontWeight: FontWeight.bold,
                                         color: Colors.black,
                                       ),
 
                                       lessStyle: const TextStyle(
-                                        fontSize: 14,
+                                        fontSize: 12,
                                         fontWeight: FontWeight.bold,
                                         color: Colors.black,
                                       ),
@@ -498,6 +416,7 @@ class _todoScreenState extends State<todoScreen> {
                                           ),
                                         ),
                                         Spacer(),
+                                        //EDIT ICON
                                         GestureDetector(
                                           onTap: () {
                                             setState(() {
@@ -509,29 +428,71 @@ class _todoScreenState extends State<todoScreen> {
                                               selectedPriority = task.priority;
                                             });
                                           },
-                                          child: Icon(Icons.edit),
+                                          child: Icon(
+                                            Icons.edit,
+                                            color: Colors.blueGrey,
+                                          ),
                                         ),
+                                        //DELTE ICON
                                         GestureDetector(
                                           onTap: () {
                                             //call
                                             //delter from provider
                                             // final indextodel = todo[index];
-                                            final indextodel = index;
-                                            todo.deleteTask(indextodel);
+                                            // final indextodel = index;
+                                            // todo.deleteTask(indextodel);
 
-                                            try {
-                                              todo.deleteTask(index);
-                                            } catch (e) {
-                                              log("$e");
-                                            } finally {
-                                              log("Inside Finally...");
-                                            }
-                                            // show our
-                                            //custom snackbar
-                                            showCustomSnackBar(
-                                              context,
-                                              "Data Deleted Succesfully from List ",
+                                            showDialog(
+                                              context: context,
+                                              builder: (context) {
+                                                return AlertDialog(
+                                                  title: const Text("Delete"),
+                                                  content: const Text(
+                                                    "Are You Sure?",
+                                                  ),
+
+                                                  actions: [
+                                                    TextButton(
+                                                      onPressed: () {
+                                                        Navigator.of(
+                                                          context,
+                                                        ).pop();
+                                                      },
+                                                      child: Text("Cancel"),
+                                                    ),
+                                                    TextButton(
+                                                      onPressed: () {
+                                                        // final indextodel =
+                                                        //     index;
+                                                        // todo.deleteTask(
+                                                        //   indextodel,
+                                                        // );
+                                                        String doctodelId = todo
+                                                            .allTask[index]
+                                                            .id;
+                                                        int indexofTask = index;
+                                                        todo.deletetheTaskFromFirestore(
+                                                          doctodelId,
+                                                          indexofTask,
+                                                        );
+                                                        showCustomSnackBar(
+                                                          context,
+                                                          "$doctodelId Data Deleted Succesfully from List ",
+                                                        );
+                                                        Navigator.of(
+                                                          context,
+                                                        ).pop();
+                                                      },
+
+                                                      child: const Text(
+                                                        "Delete",
+                                                      ),
+                                                    ),
+                                                  ],
+                                                );
+                                              },
                                             );
+
                                             // ScaffoldMessenger.of(
                                             //   context,
                                             // ).showSnackBar(
@@ -542,7 +503,10 @@ class _todoScreenState extends State<todoScreen> {
                                             //   ),
                                             // );
                                           },
-                                          child: Icon(Icons.delete),
+                                          child: Icon(
+                                            Icons.delete,
+                                            color: Colors.red,
+                                          ),
                                         ),
                                       ],
                                     ),

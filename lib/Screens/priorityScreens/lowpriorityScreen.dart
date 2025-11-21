@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:readmore/readmore.dart';
+import 'package:todowithprovider/Provider/drawerProvider.dart';
 import 'package:todowithprovider/Provider/todoprovider.dart';
 import 'package:todowithprovider/widgets/addTaskwidget.dart';
 import 'package:todowithprovider/widgets/appBarWidget.dart';
@@ -19,6 +20,7 @@ class Lowpriorityscreen extends StatefulWidget {
 class _LowpriorityscreenState extends State<Lowpriorityscreen> {
   @override
   Widget build(BuildContext context) {
+    final drawerprovider = Provider.of<Drawerprovider>(context, listen: false);
     return Scaffold(
       appBar: appBarWidgetCustom(),
       drawer: appDrawerWidget(),
@@ -26,8 +28,8 @@ class _LowpriorityscreenState extends State<Lowpriorityscreen> {
         padding: EdgeInsetsGeometry.all(10),
         child: Column(
           children: [
-            Addtaskwidget(),
-            const SizedBox(height: 20),
+            // Addtaskwidget(),
+            // const SizedBox(height: 20),
             Expanded(
               child: Consumer<Todoprovider>(
                 builder: (context, todoproviderobj, child) {
@@ -39,7 +41,7 @@ class _LowpriorityscreenState extends State<Lowpriorityscreen> {
                       .toList();
 
                   return taskwithlowPriorityList.isEmpty
-                      ? Text("List With Low Priority is Empty")
+                      ? Center(child: Text("List With Low Priority is Empty"))
                       : ListView.separated(
                           itemBuilder: (context, index) {
                             //Extract
@@ -52,14 +54,13 @@ class _LowpriorityscreenState extends State<Lowpriorityscreen> {
                             return Container(
                               width: MediaQuery.of(context).size.width,
                               decoration: BoxDecoration(
-          color: Colors.white,
+                                color: Colors.white,
                                 borderRadius: BorderRadius.circular(20),
-
-                                border: Border.all(
-                                  // color: Colors.black,
-                                  color: Colors.grey.shade300,
-                                  width: 2.0,
-                                  style: BorderStyle.solid,
+                                border: Border(
+                                  left: BorderSide(
+                                    color: Colors.green,
+                                    width: 5,
+                                  ),
                                 ),
                                 boxShadow: [
                                   BoxShadow(
@@ -74,63 +75,31 @@ class _LowpriorityscreenState extends State<Lowpriorityscreen> {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Row(
-                                      children: [
-                                        Expanded(
-                                          child: ReadMoreText(
-                                            lowPriorityTask.title,
-                                            trimLines: 1,
-                                            trimMode: TrimMode.Line,
-                                            trimCollapsedText: "Read More",
-                                            trimExpandedText: "Read Less",
-                                             moreStyle: const TextStyle(
-                                              fontSize: 14,
-                                              // fontWeight: FontWeight.bold,
-                                              fontWeight: FontWeight.w600,
-                                              // color: Colors.black,
-                                              color: Colors.blueGrey,
-                                            ),
-
-                                            lessStyle: const TextStyle(
-                                              fontSize: 14,
-                                              // fontWeight: FontWeight.bold,
-                                              color: Colors.blueGrey,
-                                              fontWeight: FontWeight.w600,
-                                              // color: Colors.black,
-                                            ),
-
-                                            style: TextStyle(
-                                              fontSize: 18,
-                                              color: Colors.black87,
-                                              fontWeight: FontWeight.w700,
-                                            ),
-                                          ),
-                                        ),
-                                        // Spacer(),
-                                        Text(
-                                          "Priority: ${lowPriorityTask.priority}",
-                                          style: TextStyle(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                      ],
+                                    Text(
+                                      lowPriorityTask.title,
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        color: Colors.black87,
+                                        fontWeight: FontWeight.w700,
+                                      ),
+                                      maxLines: 2,
                                     ),
+
                                     ReadMoreText(
                                       //description
                                       lowPriorityTask.description,
                                       trimLines: 1,
                                       trimMode: TrimMode.Line,
-                                      trimCollapsedText: "Read More",
-                                      trimExpandedText: "Read Less",
+                                      trimCollapsedText: " More",
+                                      trimExpandedText: " Less",
                                       moreStyle: const TextStyle(
-                                        fontSize: 14,
+                                        fontSize: 12,
                                         fontWeight: FontWeight.bold,
                                         color: Colors.black,
                                       ),
 
                                       lessStyle: const TextStyle(
-                                        fontSize: 14,
+                                        fontSize: 12,
                                         fontWeight: FontWeight.bold,
                                         color: Colors.black,
                                       ),
@@ -142,8 +111,14 @@ class _LowpriorityscreenState extends State<Lowpriorityscreen> {
                                     ),
                                     Row(
                                       children: [
+                                        Icon(
+                                          Icons.calendar_today,
+                                          size: 16,
+                                          color: Colors.blueGrey,
+                                        ),
+                                        const SizedBox(width: 10),
                                         Text(
-                                          "Date : ${lowPriorityTask.date}",
+                                          "${lowPriorityTask.date}",
                                           style: TextStyle(
                                             // fontWeight: FontWeight.bold,
                                             fontSize: 14,
@@ -155,39 +130,97 @@ class _LowpriorityscreenState extends State<Lowpriorityscreen> {
                                             log(
                                               "Edit icon clecked in all task screen",
                                             );
-
-                                            
-                                            final realIndex = todoproviderobj.allTask.indexOf(lowPriorityTask);
+                                            //index to pass for update
+                                            final realIndex = todoproviderobj
+                                                .allTask
+                                                .indexOf(lowPriorityTask);
 
                                             log(
                                               "$realIndex passed to dailog screen",
                                             );
+                                            //Document id to pass for update
+                                            final doctoEdit = todoproviderobj
+                                                .allTask[realIndex]
+                                                .id;
+
+                                            //call edit
                                             showDialog(
                                               context: context,
                                               builder: (context) {
                                                 return todoFormWidget(
                                                   editingIndexID: realIndex,
+                                                  documentID: doctoEdit,
                                                 );
                                               },
                                             );
                                           },
-                                          child: Icon(Icons.edit),
+                                          child: Icon(
+                                            Icons.edit,
+                                            color: Colors.blueGrey,
+                                          ),
                                         ),
                                         GestureDetector(
                                           onTap: () {
                                             //call
                                             //delter from provider
-       
+                                            showDialog(
+                                              context: context,
+                                              builder: (context) {
+                                                return AlertDialog(
+                                                  title: const Text("Delete"),
+                                                  content: const Text(
+                                                    "Are You Sure its low Priority?",
+                                                  ),
 
-                                            final realIndex = todoproviderobj
-                                                .allTask
-                                                .indexOf(lowPriorityTask);
-                                            //Delete    
-                                            todoproviderobj.deleteTask(
-                                              realIndex,
+                                                  actions: [
+                                                    TextButton(
+                                                      onPressed: () {
+                                                        Navigator.of(
+                                                          context,
+                                                        ).pop();
+                                                      },
+                                                      child: Text("Cancel"),
+                                                    ),
+                                                    TextButton(
+                                                      onPressed: () {
+                                                        // );
+                                                        final realIndex =
+                                                            todoproviderobj
+                                                                .allTask
+                                                                .indexOf(
+                                                                  lowPriorityTask,
+                                                                );
+
+                                                        String doctodelId =
+                                                            todoproviderobj
+                                                                .allTask[realIndex]
+                                                                .id;
+                                                        todoproviderobj
+                                                            .deletetheTaskFromFirestore(
+                                                              doctodelId,
+                                                              realIndex,
+                                                            );
+                                                        Navigator.of(
+                                                          context,
+                                                        ).pop();
+                                                      },
+                                                      child: Text(
+                                                        "Delete Task",
+                                                      ),
+                                                    ),
+                                                  ],
+                                                );
+                                              },
                                             );
 
-                                           
+                                            // final realIndex = todoproviderobj
+                                            //     .allTask
+                                            //     .indexOf(lowPriorityTask);
+                                            //Delete
+                                            // todoproviderobj.deleteTask(
+                                            //   realIndex,
+                                            // );
+
                                             // ScaffoldMessenger.of(
                                             //   context,
                                             // ).showSnackBar(
@@ -198,7 +231,10 @@ class _LowpriorityscreenState extends State<Lowpriorityscreen> {
                                             //   ),
                                             // );
                                           },
-                                          child: Icon(Icons.delete),
+                                          child: Icon(
+                                            Icons.delete,
+                                            color: Colors.red,
+                                          ),
                                         ),
                                       ],
                                     ),
@@ -217,6 +253,13 @@ class _LowpriorityscreenState extends State<Lowpriorityscreen> {
             ),
           ],
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.white,
+        onPressed: () {
+          drawerprovider.changeCurrentScreen(AllScreenPagesEnum.todoScreen);
+        },
+        child: Icon(Icons.add_task, color: Colors.blueAccent),
       ),
     );
   }
