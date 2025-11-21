@@ -21,7 +21,9 @@ Features
 ## Screenshots
 
 ![App Screenshot](assets/Screenshotsofapp/alltaskscreen.png)
+<br>
 ![App Screenshot](assets/Screenshotsofapp/drawer.png)
+<br>
 ![App Screenshot](assets/Screenshotsofapp/todscreen.png)
 ![App Screenshot](assets/Screenshotsofapp/updatetask.png)
 ![App Screenshot](assets/Screenshotsofapp/updating.png)
