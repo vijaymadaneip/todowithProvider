@@ -31,7 +31,8 @@ Features
 ![App Screenshot](assets/Screenshotsofapp/updating.png)
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 ![App Screenshot](assets/Screenshotsofapp/deltingtask.png)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 ![App Screenshot](assets/Screenshotsofapp/highprioritytaskscreen.png)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 ![App Screenshot](assets/Screenshotsofapp/lowprioritytaskscreen.png)
-![App Screenshot](assets/Screenshotsofapp/mediumprioritytaskscreen.png)
 
