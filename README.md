@@ -21,12 +21,15 @@ Features
 ## Screenshots
 
 ![App Screenshot](assets/Screenshotsofapp/alltaskscreen.png)
-&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 ![App Screenshot](assets/Screenshotsofapp/drawer.png)
-&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 ![App Screenshot](assets/Screenshotsofapp/todscreen.png)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 ![App Screenshot](assets/Screenshotsofapp/updatetask.png)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 ![App Screenshot](assets/Screenshotsofapp/updating.png)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 ![App Screenshot](assets/Screenshotsofapp/deltingtask.png)
 ![App Screenshot](assets/Screenshotsofapp/highprioritytaskscreen.png)
 ![App Screenshot](assets/Screenshotsofapp/lowprioritytaskscreen.png)
